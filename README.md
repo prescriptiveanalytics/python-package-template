@@ -1,3 +1,12 @@
+# FORK
+> !!!NOTICE this is a fork of https://github.com/RISCSoftware/cookiecutter-python-package, containing risc specific changes (Dockerfile-base, Dockerfile-test, .gitlab-ci.yml, pyproject.toml, README.md).
+Use these to update it:
+```
+git remote add upstream git@github.com:RISCSoftware/cookiecutter-python-package.git
+git pull upstream main
+git merge upstream/main
+```
+
 # Poetry Cookiecutter
 
 A simple [Cookiecutter](https://github.com/cookiecutter/cookiecutter) template for scaffolding Python packages and apps. The goal is to provide sane defaults for any application.
