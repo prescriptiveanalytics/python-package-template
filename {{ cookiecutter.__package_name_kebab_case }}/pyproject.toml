@@ -20,6 +20,12 @@ classifiers = [
     "Programming Language :: Python :: 3",
 ]
 
+# https://python-poetry.org/docs/repositories/#using-a-private-repository
+[[tool.poetry.source]]
+name = "risc-pypi"
+url = "https://pypiserver.risc-software.at/simple/"
+priority = "explicit"
+
 # https://python-poetry.org/docs/dependency-specification/
 [tool.poetry.dependencies]
 python = "^{{ cookiecutter.python_version }}"
