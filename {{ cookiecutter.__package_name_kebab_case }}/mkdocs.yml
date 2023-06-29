@@ -1,0 +1,19 @@
+site_name: {{ cookiecutter.__package_name_kebab_case }} Documentation
+
+theme:
+  name: material
+
+plugins:
+  - search
+  - mkdocstrings:
+      handlers:
+        python:
+          import:
+            - https://docs.python-requests.org/en/master/objects.inv
+          paths: [.]
+          options:
+            docstring_style: {{ cookiecutter.docstring_style | lower }}
+            show_submodules: true
+            separate_signature: true
+            show_signature_annotations: true
+            signature_crossrefs: false
