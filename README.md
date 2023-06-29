@@ -1,10 +1,9 @@
 # FORK
-> !!!NOTICE this is a fork of https://github.com/RISCSoftware/cookiecutter-python-package, containing risc specific changes (Dockerfile-base, Dockerfile-test, .gitlab-ci.yml, pyproject.toml, README.md).
+> NOTICE: this is a fork of https://github.com/RISCSoftware/cookiecutter-python-package, containing risc specific changes (Dockerfile-base, Dockerfile-test, .gitlab-ci.yml, pyproject.toml, README.md).
 Use these to update it:
 ```
 git remote add upstream git@github.com:RISCSoftware/cookiecutter-python-package.git
 git pull upstream main
-git merge upstream/main
 ```
 
 # Poetry Cookiecutter
