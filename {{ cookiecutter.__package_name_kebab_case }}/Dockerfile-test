@@ -6,6 +6,34 @@ ARG PYTHON_VERSION={{cookiecutter.python_version}}
 ARG POETRY_VERSION=1.5.1
 LABEL maintainer="{{cookiecutter.author_name}} <{{cookiecutter.author_email}}>"
 
+RUN apt-get update && apt-get install -yq \ 
+    build-essential \
+    libssl-dev \
+    zlib1g-dev \
+    libbz2-dev \
+    libreadline-dev \
+    libsqlite3-dev \
+    curl \ 
+    libncursesw5-dev \
+    xz-utils \
+    tk-dev \
+    libxml2-dev \
+    libxmlsec1-dev \
+    libffi-dev \
+    liblzma-dev \
+    git \
+    python3-distutils \
+    && rm -rf /var/lib/apt/lists/*
+    
+ENV PYENV_ROOT $HOME/.pyenv
+ENV PATH $PYENV_ROOT/shims:$PYENV_ROOT/bin:$PATH
+
+# Install pyenv
+RUN set -ex \
+    && curl https://pyenv.run | bash \
+    && pyenv update \
+    && eval "$(pyenv init -)" && pyenv --version
+
 RUN pip install --upgrade pip
 
 # Install python and set interpreter
