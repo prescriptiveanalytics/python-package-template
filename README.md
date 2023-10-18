@@ -30,13 +30,12 @@ A simple [Cookiecutter](https://github.com/cookiecutter/cookiecutter) template f
 ### Creating a new Python project
 
 1. Install [Cruft](https://github.com/cruft/cruft) and [Cookiecutter](https://github.com/cookiecutter/cookiecutter)
-2. Create a new repository locally
-3. In the directory that contains the cloned repository, run:
+2. In the directory that contains the cloned repository, run:
    ```sh
    cruft create -f https://gitdma.risc-software.at/common/python-package-template
    ```
-4. Install the environment with `poetry install` and create a container using `docker build -f Dockerfile-test .`
-5. [Optional] Update your project template by running `cruft update`
+3. Install the environment with `poetry install` and create a container using `docker build -f Dockerfile-test .`
+4. [Optional] Update your project template by running `cruft update`
 
 ## Parameters
 
