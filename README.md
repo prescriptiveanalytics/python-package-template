@@ -19,9 +19,6 @@ A simple [Cookiecutter](https://github.com/cookiecutter/cookiecutter) template f
 - Ready to use **Docker images** as a base CI/CD
 - Cross-platform support for Linux, macOS (Apple silicon and Intel), and Windows
 
-### Extras
-- Optionally follows the [Conventional Commits](https://www.conventionalcommits.org/) standard to automate [Semantic Versioning](https://semver.org/) and [Keep A Changelog](https://keepachangelog.com/) with [Commitizen](https://github.com/commitizen-tools/commitizen)
-
 ### Planned
 - [ ] **Automatic dependency** updates with [RenovateBot]()
 
@@ -30,7 +27,7 @@ A simple [Cookiecutter](https://github.com/cookiecutter/cookiecutter) template f
 ### Creating a new Python project
 
 1. Install [Cruft](https://github.com/cruft/cruft) and [Cookiecutter](https://github.com/cookiecutter/cookiecutter)
-2. In the directory that contains the cloned repository, run:
+2. Run:
    ```sh
    cruft create -f https://gitdma.risc-software.at/common/python-package-template
    ```
@@ -48,7 +45,6 @@ A simple [Cookiecutter](https://github.com/cookiecutter/cookiecutter) template f
 | `author_email`                    <br> "sonja.sunshine@risc-software.at"                           | The email address of the primary author of the package.                                                                                                                                                                                                                                                                                                                                           |
 | `python_version`                  <br> "3.11"                                        | The minimum Python version that the package requires.                                                                                                                                                                                                                                                                                                                                             |
 | `docstring_style`                 <br> ["Google", "Numpy"]                          | Whether to use and validate [NumPy-style](https://numpydoc.readthedocs.io/en/latest/format.html) or [Google-style docstrings](https://google.github.io/styleguide/pyguide.html#38-comments-and-docstrings).                                                                                                                                                                                       |
-| `use_conventional_commits`       <br> [true, false]                                   | If true, [Commitizen](https://github.com/commitizen-tools/commitizen) will verify that your commits follow the [Conventional Commits](https://www.conventionalcommits.org/) standard. Then, `cz bump` may be used to automate [Semantic Versioning](https://semver.org/) and [Keep A Changelog](https://keepachangelog.com/).                                                                 |
 
 ## Supported Poe Tasks
 

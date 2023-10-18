@@ -37,9 +37,6 @@ pytest-xdist = "^3.3.1"
 mkdocs = "^1.4.3"
 mkdocs-material = "^9.1.15"
 mkdocstrings = {extras = ["python"], version = "^0.22.0"}
-{%- if cookiecutter.use_conventional_commits %}
-commitizen = "^3.2.2"
-{%- endif %}
 
 # https://github.com/nat-n/poethepoet
 [tool.poe.tasks]
@@ -85,13 +82,3 @@ max-doc-length = 120
 
 [tool.ruff.pydocstyle]
 convention = "{{ cookiecutter.docstring_style|lower }}"
-
-{%- if cookiecutter.use_conventional_commits %}
-# https://commitizen-tools.github.io/commitizen/config/
-[tool.commitizen]
-bump_message = "bump(release): v$current_version → v$new_version"
-tag_format = "v$version"
-update_changelog_on_bump = true
-version = "0.0.1"
-version_files = ["pyproject.toml:version"]
-{%- endif %}
