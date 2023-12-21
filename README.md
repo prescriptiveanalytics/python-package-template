@@ -12,7 +12,6 @@ A simple [Cookiecutter](https://github.com/cookiecutter/cookiecutter) template f
    - **Tests and test coverage** with [Pytest](https://github.com/pytest-dev/pytest/)
 - **Scaffolding** updates with [Cookiecutter](https://github.com/cookiecutter/cookiecutter) and [Cruft](https://github.com/cruft/cruft)
 - **Documentation generation** with [Mkdocs](https://github.com/mkdocs/mkdocs) and `mkdocstrings`
-- Installing from and publishing to **RISCs private** [PyPI](https://pypi.org/)
 - Simple **Gitignore** for working with Python / PyCharm / VSCode / ...
 - Default **EditorConfig** for Python and miscellaneous files
 - Uses [Google-style docstrings](https://google.github.io/styleguide/pyguide.html#38-comments-and-docstrings) or [NumPy-style](https://numpydoc.readthedocs.io/en/latest/format.html)
@@ -29,7 +28,7 @@ A simple [Cookiecutter](https://github.com/cookiecutter/cookiecutter) template f
 1. Install [Cruft](https://github.com/cruft/cruft) and [Cookiecutter](https://github.com/cookiecutter/cookiecutter)
 2. Run:
    ```sh
-   cruft create -f https://gitdma.risc-software.at/common/python-package-template
+   cruft create -f https://github.com/prescriptiveanalytics/python-package-template
    ```
 3. Install the environment with `poetry install` and create a container using `docker build -f Dockerfile-test .`
 4. [Optional] Update your project template by running `cruft update`
