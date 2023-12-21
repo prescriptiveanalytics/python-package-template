@@ -2,7 +2,7 @@
 # It contains the minimal dependencies and is therefore smaller.
 from debian:stable-slim
 ARG PYTHON_VERSION={{cookiecutter.python_version}}
-ARG POETRY_VERSION=1.5.1
+ARG POETRY_VERSION=1.7.1
 
 ENV DEBIAN_FRONTEND noninteractive
 LABEL maintainer="{{cookiecutter.author_name}} <{{cookiecutter.author_email}}>"
