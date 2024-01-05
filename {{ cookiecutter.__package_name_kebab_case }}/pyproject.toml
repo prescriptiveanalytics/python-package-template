@@ -31,7 +31,7 @@ priority = "explicit"
 python = "^{{ cookiecutter.python_version }}"
 
 # https://python-poetry.org/docs/master/managing-dependencies/
-[tool.poetry.group.dev.dependencies]  
+[tool.poetry.group.dev.dependencies]
 poethepoet = "^0.20.0"
 black = { version = "^23.3.0", extras = ["jupyter"] }
 ruff = "^0.0.272"
@@ -43,6 +43,7 @@ pytest-xdist = "^3.3.1"
 mkdocs = "^1.4.3"
 mkdocs-material = "^9.1.15"
 mkdocstrings = {extras = ["python"], version = "^0.22.0"}
+liccheck = "^0.9.2"
 
 # https://github.com/nat-n/poethepoet
 [tool.poe.tasks]
@@ -77,7 +78,7 @@ testpaths = ["{{ cookiecutter.__package_name_snake_case }}", "tests"]
 norecursedirs = [ ]
 
 # https://github.com/charliermarsh/ruff
-[tool.ruff]  
+[tool.ruff]
 fix = true
 ignore-init-module-imports = true
 line-length = 120
@@ -88,3 +89,45 @@ max-doc-length = 120
 
 [tool.ruff.pydocstyle]
 convention = "{{ cookiecutter.docstring_style|lower }}"
+
+
+[tool.liccheck]
+# see also: https://pypi.org/project/liccheck/
+# Authorized and unauthorized licenses in LOWER CASE
+authorized_licenses = [
+        "bsd",
+        "new bsd",
+        "bsd 3-clause",
+        "bsd license",
+        "isc license",
+        "isc license (iscl)",
+        "apache",
+        "apache 2.0",
+        "apache software",
+        "apache software license",
+        "apache license, version 2.0",
+        "gnu lgpl",
+        "historical permission notice and disclaimer (hpnd)",
+        "lgpl with exceptions or zpl",
+        "mozilla public license 2.0 (mpl 2.0)",
+        "mit",
+        "mit license",
+        "new bsd license",
+        "python software foundation license",
+        "python software foundation",
+        "simplified bsd",
+        "the unlicense (unlicense)",
+	]
+# as_regex = true -> e.g. '\bgpl'
+unauthorized_licenses = [
+	"gpl v3",
+	"gnu general public license v2 or later (gplv2+)",
+]
+level = "standard"  # alternatives: "cautious", "paranoid"
+requirement_txt_file = "./requirements.txt"
+reporting_txt_file = "./liccheck_reporting.txt" # by default is None
+
+[tool.liccheck.authorized_packages]
+# Python software license (see http://zesty.ca/python/uuid.README.txt)
+uuid = "1.30"
+
