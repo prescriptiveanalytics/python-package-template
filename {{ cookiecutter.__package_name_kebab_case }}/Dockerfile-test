@@ -1,9 +1,10 @@
 # This dockerfile serves as a base for all testing images.
-# It contains all dependencies and is therefore bigger.
-FROM registry.risc-software.at/common/ci-templates/python/pyenv:latest
-
+# It contains the minimal dependencies and is therefore smaller.
+from debian:stable-slim
 ARG PYTHON_VERSION={{cookiecutter.python_version}}
-ARG POETRY_VERSION=1.5.1
+ARG POETRY_VERSION=1.7.1
+
+ENV DEBIAN_FRONTEND noninteractive
 LABEL maintainer="{{cookiecutter.author_name}} <{{cookiecutter.author_email}}>"
 
 RUN apt-get update && apt-get install -yq \ 
@@ -33,8 +34,6 @@ RUN set -ex \
     && curl https://pyenv.run | bash \
     && pyenv update \
     && eval "$(pyenv init -)" && pyenv --version
-
-RUN pip install --upgrade pip
 
 # Install python and set interpreter
 RUN pyenv install -s ${PYTHON_VERSION} && pyenv global ${PYTHON_VERSION}
