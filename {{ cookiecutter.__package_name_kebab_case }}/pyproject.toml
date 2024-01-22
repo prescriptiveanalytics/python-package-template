@@ -55,6 +55,17 @@ _check_format = "black --check ."
 _check_sort_imports = "isort --check ."
 _check_lint = "ruff check ."
 
+# if you are using poetry for dependency management, you have to generate a requirements.txt first
+_convert_to_req_txt = { shell = "poetry export --without-hashes --format=requirements.txt > requirements.txt" }
+# check authorization of the licenses of dependencies as defined in [tool.liccheck] section 
+# (or a separate liccheck.ini-file)
+_check_licenses = "liccheck -s liccheck.ini -r requirements.txt"
+
+check_licenses = [
+    "_convert_to_req_txt",
+    "_check_licenses",
+]
+
 docs = "mkdocs serve"
 precommit = ["_format", "_sort_imports", "_lint"]
 check = ["_check_format", "_check_sort_imports", "_check_lint"]
