@@ -38,6 +38,7 @@ A simple [Cookiecutter](https://github.com/cookiecutter/cookiecutter) template f
 2. Run:
    ```sh
    cruft create -f https://gitdma.risc-software.at/common/python-package-template
+   # add for testing: --checkout <BRANCH_NAME>
    ```
 3. Install the environment with `poetry install` and create a container using `docker build -f Dockerfile-test .`
 4. [Optional] Update your project template by running `cruft update`
