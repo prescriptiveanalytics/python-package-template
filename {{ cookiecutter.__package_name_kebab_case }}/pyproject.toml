@@ -68,7 +68,7 @@ check_licenses = [
 
 docs = "mkdocs serve"
 precommit = ["_format", "_sort_imports", "_lint"]
-check = ["_check_format", "_check_sort_imports", "_check_lint"]
+check = ["_check_format", "_check_sort_imports", "_check_lint", "check_licenses"]
 test = "pytest"
 
 # https://black.readthedocs.io/en/stable/usage_and_configuration/the_basics.html#configuration-via-a-file
