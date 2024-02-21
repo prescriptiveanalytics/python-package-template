@@ -20,7 +20,6 @@ A simple [Cookiecutter](https://github.com/cookiecutter/cookiecutter) template f
    - **Tests and test coverage** with [Pytest](https://github.com/pytest-dev/pytest/)
 - **Scaffolding** updates with [Cookiecutter](https://github.com/cookiecutter/cookiecutter) and [Cruft](https://github.com/cruft/cruft)
 - **Documentation generation** with [Mkdocs](https://github.com/mkdocs/mkdocs) and `mkdocstrings`
-- Installing from and publishing to **RISCs private** [PyPI](https://pypi.org/)
 - Simple **Gitignore** for working with Python / PyCharm / VSCode / ...
 - Default **EditorConfig** for Python and miscellaneous files
 - Uses [Google-style docstrings](https://google.github.io/styleguide/pyguide.html#38-comments-and-docstrings) or [NumPy-style](https://numpydoc.readthedocs.io/en/latest/format.html)
