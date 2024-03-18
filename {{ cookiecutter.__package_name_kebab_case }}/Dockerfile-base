@@ -55,4 +55,3 @@ RUN poetry install --without dev --all-extras --no-root
 
 # Copy the rest of the repository
 ADD . .
-
