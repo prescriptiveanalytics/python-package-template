@@ -5,6 +5,7 @@ A simple [Cookiecutter](https://github.com/cookiecutter/cookiecutter) template f
 ## Batteries Included
 
 - **Packaging and dependency management** with [Poetry](https://github.com/python-poetry/poetry)
+- **Ready to use CUDA DEVCONTAINER** with [devcontainers](https://containers.dev/)
 - **Task running** with [Poe the Poet](https://github.com/nat-n/poethepoet)
    - **Pre defined** tasks
    - **Code formatting** with [Black](https://github.com/psf/black), [isort](https://github.com/PyCQA/isort)
