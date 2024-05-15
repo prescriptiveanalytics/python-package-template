@@ -11,7 +11,7 @@ description = "{{ cookiecutter.package_description }}"
 authors = [
   "{{ cookiecutter.author_name }} <{{ cookiecutter.author_email }}>"
 ]
-readme = "README.MD"
+readme = "README.md"
 repository = "{{ cookiecutter.package_url }}"
 packages = [
   { include = "{{cookiecutter.__package_name_snake_case}}" }
