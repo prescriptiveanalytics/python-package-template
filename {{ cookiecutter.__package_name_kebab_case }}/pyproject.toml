@@ -23,7 +23,7 @@ classifiers = [
 [[tool.poetry.source]]
 # https://python-poetry.org/docs/repositories/#using-a-private-repository
 name = "risc-pypi"
-url = "https://nexus01.risc-software.at/repository/pypi/"
+url = "https://pypiserver.risc-software.at"
 priority = "explicit"
 
 [tool.poetry.dependencies]
