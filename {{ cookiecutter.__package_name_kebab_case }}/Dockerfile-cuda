@@ -1,11 +1,12 @@
 # This dockerfile serves as a base for all testing images.
 # It contains the minimal dependencies and is therefore smaller.
 from nvidia/cuda:12.3.1-runtime-ubuntu22.04
-ARG PYTHON_VERSION=3.10
-ARG POETRY_VERSION=1.7.1
 
+ARG PYTHON_VERSION={{cookiecutter.python_version}}
+ARG POETRY_VERSION=1.8.0
 ENV DEBIAN_FRONTEND noninteractive
-LABEL maintainer="Dominik Falkner <dominik.falkner@risc-software.at>"
+
+LABEL maintainer="{{cookiecutter.author_name}} <{{cookiecutter.author_email}}>"
 
 RUN apt-get update --allow-insecure-repositories && apt-get install -yq \ 
     build-essential \
@@ -37,12 +38,9 @@ ENV PATH $PYENV_ROOT/shims:$PYENV_ROOT/bin:$PATH
 RUN set -ex \
     && curl https://pyenv.run | bash \
     && pyenv update \
-    && eval "$(pyenv init -)" \
-    # activate pyenv on shell start
-    && pyenv init - > ~/.bashrc
-
-# Install python and set interpreter
-RUN pyenv install -s ${PYTHON_VERSION} && pyenv global ${PYTHON_VERSION}
+    && pyenv install -s ${PYTHON_VERSION} \
+    && pyenv global ${PYTHON_VERSION} \
+    && pyenv rehash
 
 # Install and configure Poetry
 ENV POETRY_VERSION=${POETRY_VERSION} \
@@ -54,6 +52,7 @@ ENV PATH="${PATH}:${POETRY_HOME}/bin"
 # Setup directory structure
 RUN mkdir /repo
 WORKDIR /repo
+
 # set pythonpath for nvidia image
 ENV PYTHONPATH "${PYTHONPATH}:/repo"
 
@@ -64,4 +63,6 @@ RUN poetry install --all-extras --no-root
 # Copy the rest of the repository
 ADD . .
 
-ENTRYPOINT ["tail", "-f", "/dev/null"]
+# special entry point which allows you to start the container manually, will keep the container alive
+# ENTRYPOINT ["tail", "-f", "/dev/null"]
+
