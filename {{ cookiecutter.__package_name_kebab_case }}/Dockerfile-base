@@ -1,20 +1,21 @@
 # This dockerfile serves as a base for all testing images.
 # It contains the minimal dependencies and is therefore smaller.
 from debian:stable-slim
-ARG PYTHON_VERSION={{cookiecutter.python_version}}
-ARG POETRY_VERSION=1.7.1
 
+ARG PYTHON_VERSION={{cookiecutter.python_version}}
+ARG POETRY_VERSION=1.8.0
 ENV DEBIAN_FRONTEND noninteractive
+
 LABEL maintainer="{{cookiecutter.author_name}} <{{cookiecutter.author_email}}>"
 
-RUN apt-get update && apt-get install -yq \ 
+RUN apt-get update && apt-get install -yq \
     build-essential \
     libssl-dev \
     zlib1g-dev \
     libbz2-dev \
     libreadline-dev \
     libsqlite3-dev \
-    curl \ 
+    curl \
     libncursesw5-dev \
     xz-utils \
     tk-dev \
@@ -33,12 +34,9 @@ ENV PATH $PYENV_ROOT/shims:$PYENV_ROOT/bin:$PATH
 RUN set -ex \
     && curl https://pyenv.run | bash \
     && pyenv update \
-    && eval "$(pyenv init -)" \
-    # activate pyenv on shell start
-    && pyenv init - > ~/.bashrc
-
-# Install python and set interpreter
-RUN pyenv install -s ${PYTHON_VERSION} && pyenv global ${PYTHON_VERSION}
+    && pyenv install -s ${PYTHON_VERSION} \
+    && pyenv global ${PYTHON_VERSION} \
+    && pyenv rehash
 
 # Install and configure Poetry
 ENV POETRY_VERSION=${POETRY_VERSION} \
@@ -51,9 +49,15 @@ ENV PATH="${PATH}:${POETRY_HOME}/bin"
 RUN mkdir /repo
 WORKDIR /repo
 
+# set python path to default
+ENV PYTHONPATH "${PYTHONPATH}:/repo"
+
 # Install dependencies (package itself is not installed)
 COPY pyproject.toml poetry.lock .
 RUN poetry install --without dev --all-extras --no-root
+
+# update any paths of installed cli tools (from pip)
+RUN pyenv rehash
 
 # Copy the rest of the repository
 ADD . .
