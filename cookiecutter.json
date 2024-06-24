@@ -1,6 +1,7 @@
 {
   "package_name": "My Package",
   "package_description": "One or Two sentence description of the package...",
+  "is_subproject": true,
   "package_url": "https://github.com/user/my-package",
   "author_name": "Sonja Sunshine",
   "author_email": "sonja.sunshine@risc-software.com",
