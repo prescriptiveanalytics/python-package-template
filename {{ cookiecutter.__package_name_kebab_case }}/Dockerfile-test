@@ -53,7 +53,9 @@ WORKDIR /repo
 
 # Install dependencies (package itself is not installed)
 COPY pyproject.toml poetry.lock .
+
 RUN poetry install --all-extras --no-root
+RUN pyenv rehash
 
 # Copy the rest of the repository
 ADD . .
