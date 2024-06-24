@@ -89,3 +89,4 @@ coverage.xml
 .pytest_cache/
 cover/
 *-junit.xml
+liccheck_reporting.txt
