@@ -31,8 +31,9 @@ A simple [Cookiecutter](https://github.com/cookiecutter/cookiecutter) template f
    ```sh
    cruft create -f https://github.com/prescriptiveanalytics/python-package-template
    ```
-3. Install the environment with `poetry install` and create a container using `docker build -f Dockerfile-test .`
-4. [Optional] Update your project template by running `cruft update`
+3. Ensure `poetry.lock` file is generated (by running poetry install)
+4. Install the environment with `poetry install` and create a container using `docker build -f Dockerfile-test .`
+5. [Optional] Update your project template by running `cruft update`
 
 ## Parameters
 
