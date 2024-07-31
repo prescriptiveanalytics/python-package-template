@@ -82,7 +82,7 @@ profile = "black"
 
 [tool.pytest.ini_options]
 # https://docs.pytest.org/en/7.1.x/reference/customize.html
-addopts = "--color=yes --doctest-modules  -ra --cov --cov-report=html --cov-report term --exitfirst --failed-first --strict-config --strict-markers --verbosity=2 --junitxml=python-junit.xml"
+addopts = "--color=yes --doctest-modules  -ra --cov --cov-report=html --cov-report term --cov-report xml:coverage.xml --exitfirst --failed-first --strict-config --strict-markers --verbosity=2 --junitxml=python-junit.xml"
 xfail_strict = true
 pythonpath = ["{{ cookiecutter.__package_name_snake_case }}"]
 testpaths = ["{{ cookiecutter.__package_name_snake_case }}", "tests"]
