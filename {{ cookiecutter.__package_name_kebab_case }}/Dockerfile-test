@@ -51,6 +51,9 @@ ENV PATH="${PATH}:${POETRY_HOME}/bin"
 RUN mkdir /repo
 WORKDIR /repo
 
+# set python path to default
+ENV PYTHONPATH "${PYTHONPATH}:/repo"
+
 # Install dependencies (package itself is not installed)
 COPY pyproject.toml poetry.lock .
 
