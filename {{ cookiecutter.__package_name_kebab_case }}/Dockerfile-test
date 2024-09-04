@@ -58,7 +58,6 @@ ENV PYTHONPATH "${PYTHONPATH}:/repo"
 COPY pyproject.toml poetry.lock .
 
 RUN poetry install --all-extras --no-root
-RUN pyenv rehash
 
 # update any paths of installed cli tools (from pip)
 RUN pyenv rehash
