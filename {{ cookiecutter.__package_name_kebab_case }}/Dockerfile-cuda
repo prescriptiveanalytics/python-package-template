@@ -1,6 +1,6 @@
 # This dockerfile serves as a base for all testing images.
 # It contains the minimal dependencies and is therefore smaller.
-from nvidia/cuda:12.3.1-runtime-ubuntu22.04
+FROM nvidia/cuda:12.3.1-runtime-ubuntu22.04
 
 ARG PYTHON_VERSION={{cookiecutter.python_version}}
 ARG POETRY_VERSION=1.8.0
@@ -57,7 +57,7 @@ WORKDIR /repo
 ENV PYTHONPATH "${PYTHONPATH}:/repo"
 
 # Install dependencies (package itself is not installed)
-COPY pyproject.toml poetry.lock .
+COPY pyproject.toml poetry.lock ./
 RUN poetry install --all-extras --no-root
 
 # update any paths of installed cli tools (from pip)
