@@ -6,7 +6,11 @@
 		// Sets the run context to one level up instead of the .devcontainer folder.
 		"context": "..",
 		// Update the 'dockerFile' property if you aren't using the standard 'Dockerfile' filename.
-		"dockerfile": "../Dockerfile-cuda"
+		"dockerfile": "../Dockerfile",
+		"args": {
+			"IMAGE_NAME": "nvidia/cuda:12.3.1-runtime-ubuntu22.04"
+		},
+		"target": "dev"
 	},
 	"features": {
 		"ghcr.io/devcontainers/features/git-lfs:1": {
@@ -16,7 +20,7 @@
 	},
 	"runArgs": [
 		"--gpus=all"
-	],
+	]
 
 	// Features to add to the dev container. More info: https://containers.dev/features.
 	// "features": {},
