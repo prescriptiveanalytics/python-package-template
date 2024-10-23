@@ -1,14 +1,27 @@
-# FORK
-> NOTICE: this is a fork of https://github.com/RISCSoftware/cookiecutter-python-package, containing risc specific changes (Dockerfile-base, Dockerfile-test, .gitlab-ci.yml, pyproject.toml, README.md).
-Use these to update it:
-```
-git remote add upstream git@github.com:RISCSoftware/cookiecutter-python-package.git
-git pull upstream main
-```
-
 # Poetry Cookiecutter
 
 A simple [Cookiecutter](https://github.com/cookiecutter/cookiecutter) template for scaffolding Python packages and apps. The goal is to provide sane defaults for any application.
+
+## Usage
+
+### Creating a new Python project
+
+1. Install [Cruft](https://github.com/cruft/cruft) and [Cookiecutter](https://github.com/cookiecutter/cookiecutter)
+   - Either install them using pipx
+   - Or install them in some python environment of your choice (not the environment of your future project)
+2. `cd` to the desired parent directory of your new project
+3. Run this to start an interactive agent:
+   ```sh
+   cruft create -f https://gitdma.risc-software.at/common/python-package-template
+   # add for testing: --checkout <BRANCH_NAME>
+   ```
+   This creates the directory for your new project. You can edit `<your_project>/cruft.json` to change your inputs.
+4. Ensure `poetry.lock` file is generated (by running poetry install)
+5. Install the environment with `poetry install` and create a container using
+   ```
+   docker build -f Dockerfile-test .
+   ```
+6. [Optional] Update your project template by running `cruft update`
 
 ## Batteries Included
 
@@ -28,21 +41,8 @@ A simple [Cookiecutter](https://github.com/cookiecutter/cookiecutter) template f
 - Cross-platform support for Linux, macOS (Apple silicon and Intel), and Windows
 
 ### Planned
+
 - [ ] **Automatic dependency** updates with [RenovateBot]()
-
-## Usage
-
-### Creating a new Python project
-
-1. Install [Cruft](https://github.com/cruft/cruft) and [Cookiecutter](https://github.com/cookiecutter/cookiecutter)
-2. Run:
-   ```sh
-   cruft create -f https://gitdma.risc-software.at/common/python-package-template
-   # add for testing: --checkout <BRANCH_NAME>
-   ```
-3. Ensure `poetry.lock` file is generated (by running poetry install)
-4. Install the environment with `poetry install` and create a container using `docker build -f Dockerfile-test .`
-5. [Optional] Update your project template by running `cruft update`
 
 ## Parameters
 
@@ -62,3 +62,14 @@ A simple [Cookiecutter](https://github.com/cookiecutter/cookiecutter) template f
 - **check** Checks if formatting, linting and import sorting are corrcet
 - **test** Runs all unit tests and doctests
 - **docs** Serves documentation in the `docs` folder, also generates API docs from docstrings
+
+# Maintaining this Repo
+
+## FORK
+
+> NOTICE: this is a fork of https://github.com/RISCSoftware/cookiecutter-python-package, containing risc specific changes (Dockerfile-base, Dockerfile-test, .gitlab-ci.yml, pyproject.toml, README.md).
+Use these to update it:
+```
+git remote add upstream git@github.com:RISCSoftware/cookiecutter-python-package.git
+git pull upstream main
+```
