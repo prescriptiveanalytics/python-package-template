@@ -1,6 +1,6 @@
 #TODO: might be cool to have a fixed image, to assure reproducibility
 ARG FROM_IMAGE=debian:stable-slim
-FROM FROM_IMAGE AS build
+FROM $FROM_IMAGE AS build
 
 ARG PYTHON_VERSION={{cookiecutter.python_version}}
 ARG POETRY_VERSION=1.8.0
@@ -61,15 +61,14 @@ RUN poetry install --all-extras --no-root
 # update any paths of installed cli tools (from pip)
 RUN pyenv rehash
 
-# Copy the rest of the repository
-ADD . .
-
 
 # TODO: build from FROM_IMAGE (or a plain python img), and just copy from build (without pyenv, poetry)
 FROM build AS runtime
 
+# Copy the rest of the repository
+ADD . .
 
-FROM base AS dev
+FROM build AS dev
 
 RUN eval "$(pyenv init -)" \
     # activate pyenv on shell start
