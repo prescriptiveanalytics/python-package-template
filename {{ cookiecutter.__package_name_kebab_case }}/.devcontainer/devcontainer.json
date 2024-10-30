@@ -1,39 +1,37 @@
 // For format details, see https://aka.ms/devcontainer.json. For config options, see the
 // README at: https://github.com/devcontainers/templates/tree/main/src/docker-existing-dockerfile
 {
-	"name": "CUDA Container ",
-	"build": {
-		// Sets the run context to one level up instead of the .devcontainer folder.
-		"context": "..",
-		// Update the 'dockerFile' property if you aren't using the standard 'Dockerfile' filename.
-		"dockerfile": "../Dockerfile",
-		"args": {
-			"IMAGE_NAME": "nvidia/cuda:12.3.1-runtime-ubuntu22.04"
-		},
-		"target": "dev"
-	},
-	"features": {
-		"ghcr.io/devcontainers/features/git-lfs:1": {
-			"autoPull": true,
-			"version": "latest"
-		}
-	},
-	"runArgs": [
-		"--gpus=all"
-	]
+    "name": "DEV Container",
+    "dockerComposeFile": "./docker-compose.yml",
+    "service": "devcontainer",
+    "workspaceFolder": "/workspace",
+    "features": {
+		// https://containers.dev/features
+        "ghcr.io/devcontainers/features/git-lfs:1": {
+            "autoPull": true,
+            "version": "latest"
+        }
+    },
+    "customizations": {
+        "vscode": {
+            "extensions": [
+				// add extensions for vscode here, you can copy the id from the extension page
+                // "ms-toolsai.jupyter",
+                // "ms-toolsai.vscode-jupyter-powertoys",
+                "ms-azuretools.vscode-docker",
+                "ms-python.python",
+                "ms-python.debugpy",
+                "ms-vscode-remote.remote-containers"
+            ]
+        }
+    }
 
-	// Features to add to the dev container. More info: https://containers.dev/features.
-	// "features": {},
+    // Use 'forwardPorts' to make a list of ports inside the container available locally.
+    // "forwardPorts": [],
 
-	// Use 'forwardPorts' to make a list of ports inside the container available locally.
-	// "forwardPorts": [],
+    // Uncomment the next line to run commands after the container is created.
+    // "postCreateCommand": "cat /etc/os-release",
 
-	// Uncomment the next line to run commands after the container is created.
-	// "postCreateCommand": "cat /etc/os-release",
-
-	// Configure tool-specific properties.
-	// "customizations": {},
-
-	// Uncomment to connect as an existing user other than the container default. More info: https://aka.ms/dev-containers-non-root.
-	// "remoteUser": "devcontainer"
+    // Uncomment to connect as an existing user other than the container default. More info: https://aka.ms/dev-containers-non-root.
+    // "remoteUser": "devcontainer"
 }
