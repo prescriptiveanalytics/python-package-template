@@ -1,1 +1,11 @@
-.venv
+# Ignore everything
+*
+
+# but
+!/pyproject.toml
+!/poetry.lock
+!/{{ cookiecutter.__package_name_snake_case }}/**/*.py
+
+# but but
+# Ignore the unignored
+# /{{ cookiecutter.__package_name_snake_case }}/super/specific.py
