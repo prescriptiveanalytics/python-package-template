@@ -1,0 +1,20 @@
+services:
+  devcontainer:
+    # load environment variables from a dotenv file
+    # env_file: ".env"
+    build:
+      context: ../..
+      dockerfile: Dockerfile
+      # build to stage 'dev'
+      target: dev
+      # set args for build process
+      # args:
+        # FROM_IMAGE: debian:stable-slim
+    volumes:
+      # Mounts the project folder to '/workspace'. While this file is in .devcontainer,
+      # mounts are relative to the first file in the list, which is a level up.
+      - ../../:/workspace:cached
+    # Uncomment to run the container with GPU support
+    # runtime: nvidia
+    environment:
+      - NVIDIA_VISIBLE_DEVICES=all
