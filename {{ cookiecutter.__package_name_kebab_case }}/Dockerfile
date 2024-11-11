@@ -2,11 +2,11 @@
 ARG FROM_IMAGE=debian:stable-slim
 FROM $FROM_IMAGE AS build
 
-ARG PYTHON_VERSION=3.11
-ARG POETRY_VERSION=1.8.0
+ARG PYTHON_VERSION={{cookiecutter.python_version}}
+ARG POETRY_VERSION=1.8.3
 ENV DEBIAN_FRONTEND=noninteractive
 
-LABEL maintainer="Dominik Falkner <falkner.dominik@gmail.com>"
+LABEL maintainer="{{cookiecutter.author_name}} <{{cookiecutter.author_email}}>"
 
 RUN apt-get update && apt-get install -yq \
     build-essential \
