@@ -3,7 +3,7 @@ services:
     # load environment variables from a dotenv file
     # env_file: ".env"
     build:
-      context: ../..
+      context: ..
       dockerfile: Dockerfile
       # build to stage 'dev'
       target: dev
@@ -13,7 +13,7 @@ services:
     volumes:
       # Mounts the project folder to '/workspace'. While this file is in .devcontainer,
       # mounts are relative to the first file in the list, which is a level up.
-      - ../../:/workspace:cached
+      - ../:/workspace:cached
     # Uncomment to run the container with GPU support
     # runtime: nvidia
     environment:

@@ -2,11 +2,11 @@
 ARG FROM_IMAGE=debian:stable-slim
 FROM $FROM_IMAGE AS build
 
-ARG PYTHON_VERSION={{cookiecutter.python_version}}
+ARG PYTHON_VERSION=3.11
 ARG POETRY_VERSION=1.8.0
 ENV DEBIAN_FRONTEND=noninteractive
 
-LABEL maintainer="{{cookiecutter.author_name}} <{{cookiecutter.author_email}}>"
+LABEL maintainer="Dominik Falkner <falkner.dominik@gmail.com>"
 
 RUN apt-get update && apt-get install -yq \
     build-essential \
@@ -70,6 +70,8 @@ ADD . .
 
 FROM build AS dev
 
+ENV POETRY_VIRTUALENVS_CREATE=false
+
 RUN eval "$(pyenv init -)" \
     # activate pyenv on shell start
     && pyenv init - > ~/.bashrc
@@ -82,3 +84,5 @@ RUN apt-get update --allow-insecure-repositories && apt-get install -yq \
     # editor
     vim \
     && rm -rf /var/lib/apt/lists/*
+
+ENTRYPOINT ["tail", "-f", "/dev/null"]
