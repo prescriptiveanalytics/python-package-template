@@ -70,8 +70,6 @@ ADD . .
 
 FROM build AS dev
 
-ENV POETRY_VIRTUALENVS_CREATE=false
-
 RUN eval "$(pyenv init -)" \
     # activate pyenv on shell start
     && pyenv init - > ~/.bashrc
