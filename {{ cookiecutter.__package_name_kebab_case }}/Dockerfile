@@ -3,7 +3,7 @@ ARG FROM_IMAGE=debian:stable-slim
 FROM $FROM_IMAGE AS build
 
 ARG PYTHON_VERSION={{cookiecutter.python_version}}
-ARG POETRY_VERSION=1.8.0
+ARG POETRY_VERSION=1.8.3
 ENV DEBIAN_FRONTEND=noninteractive
 
 LABEL maintainer="{{cookiecutter.author_name}} <{{cookiecutter.author_email}}>"
@@ -82,3 +82,5 @@ RUN apt-get update --allow-insecure-repositories && apt-get install -yq \
     # editor
     vim \
     && rm -rf /var/lib/apt/lists/*
+
+ENTRYPOINT ["tail", "-f", "/dev/null"]
