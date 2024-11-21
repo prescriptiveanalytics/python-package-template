@@ -1,7 +1,8 @@
 services:
   devcontainer:
     # load environment variables from a dotenv file
-    # env_file: ".env"
+    container_name: ${DEVCONTAINER_NAME}
+    env_file: ".env"
     build:
       context: ..
       dockerfile: Dockerfile
