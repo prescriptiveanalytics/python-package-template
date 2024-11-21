@@ -7,10 +7,10 @@
     "workspaceFolder": "/workspace",
     "features": {
 		// https://containers.dev/features
-        "ghcr.io/devcontainers/features/git-lfs:1": {
-            "autoPull": true,
-            "version": "latest"
-        }
+        // "ghcr.io/devcontainers/features/git-lfs:1": {
+        //     "autoPull": true,
+        //     "version": "latest"
+        // }
     },
     "customizations": {
         "vscode": {
@@ -22,7 +22,11 @@
                 "ms-python.python",
                 "ms-python.debugpy",
                 "ms-vscode-remote.remote-containers"
-            ]
+            ],
+            "settings": {
+				"terminal.integrated.shell.linux": "/bin/bash"
+				// "python.defaultInterpreterPath": ""
+			}
         }
     }
 
