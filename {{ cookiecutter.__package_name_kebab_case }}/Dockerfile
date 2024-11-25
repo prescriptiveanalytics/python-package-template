@@ -18,7 +18,7 @@ RUN apt-get update && apt-get install -yq \
 # Install and configure the poetry
 ENV PATH="/root/.local/bin:${PATH}" \
     POETRY_VERSION=${POETRY_VERSION} \
-    POETRY_VIRTUALENVS_IN_PROJECT=true \
+    POETRY_VIRTUALENVS_IN_PROJECT=false \
     POETRY_CACHE_DIR=/tmp/poetry_cache
 RUN pipx install poetry==${POETRY_VERSION} && pipx ensurepath
 
@@ -31,7 +31,7 @@ COPY pyproject.toml poetry.lock ./
 # MOD: Add private PYPI repository with credentials - ensure the build args are set!
 # poetry config http-basic.<private-pypi> ${POETRY_AUTH_POWERCAST_USERNAME} ${POETRY_AUTH_POWERCAST_PASSWORD}
 
-RUN poetry install --without dev --all-extras --no-root && rm -rf $POETRY_CACHE_DIR
+RUN poetry install --without dev --all-extras --no-root && rm -rf $POETRY_CACHE_DIR{artifacts,cache}
 
 ###############################################################################
 # TODO: build from FROM_IMAGE (or a plain python img), and just copy from build (without pyenv, poetry)
@@ -49,7 +49,7 @@ FROM build AS dev
 ENV PYTHONPATH="${PYTHONPATH}:/workspace"
 
 # Install dev dependencies
-RUN poetry install --all-extras --no-root && rm -rf $POETRY_CACHE_DIR
+RUN poetry install --all-extras --no-root && rm -rf $POETRY_CACHE_DIR{artifacts,cache}
 
 # Install dev tools conditionally 
 ARG INSTALL_DEV_TOOLS=false
