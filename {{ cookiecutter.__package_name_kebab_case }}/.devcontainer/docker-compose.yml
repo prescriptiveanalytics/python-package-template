@@ -5,6 +5,8 @@ services:
     # load environment variables from a dotenv file
     env_file: ".env"
     
+    # necessary to keep devcontainer alive
+    entrypoint: "sleep infinity"
     build:
       context: ..
       dockerfile: Dockerfile
@@ -16,11 +18,10 @@ services:
         INSTALL_DEV_TOOLS: true
     
     volumes:
-      # Mounts the project folder to '/workspace'. While this file is in .devcontainer,
-      # mounts are relative to the first file in the list, which is a level up.
+      # Mounts the project folder to '/workspace'.
       - ../:/workspace:cached
     
     # Uncomment to run the container with GPU support
     # runtime: nvidia
-    environment:
-      - NVIDIA_VISIBLE_DEVICES=all
+    # environment:
+    #   - NVIDIA_VISIBLE_DEVICES=all

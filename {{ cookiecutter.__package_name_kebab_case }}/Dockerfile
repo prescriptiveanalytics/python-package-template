@@ -61,6 +61,3 @@ RUN if [ "$INSTALL_DEV_TOOLS" ]; then \
     iputils-ping \
     && apt-get clean && rm -rf /var/lib/apt/lists/*; \
     fi
-
-# necessary entrypoint for devcontainer setup 
-ENTRYPOINT ["sleep", "infinity"]
