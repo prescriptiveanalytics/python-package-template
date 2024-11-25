@@ -11,8 +11,9 @@ services:
       # build to stage 'dev'
       target: dev
       # set args for build process
-      # args:
-        # FROM_IMAGE: debian:stable-slim
+      args:
+        # see Dockerfile for a full list of options
+        INSTALL_DEV_TOOLS: true
     
     volumes:
       # Mounts the project folder to '/workspace'. While this file is in .devcontainer,
