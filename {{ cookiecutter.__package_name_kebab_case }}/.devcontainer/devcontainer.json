@@ -24,8 +24,12 @@
                 "ms-vscode-remote.remote-containers"
             ],
             "settings": {
-				"terminal.integrated.shell.linux": "/bin/bash"
-				// "python.defaultInterpreterPath": ""
+				"terminal.integrated.shell.linux": "/bin/bash",
+				// "python.defaultInterpreterPath": "",
+                "python.venvFolders": [
+                    // Autodiscover poetry envs 
+                    "~/.cache/pypoetry/virtualenvs"
+                ]
 			}
         }
     }
