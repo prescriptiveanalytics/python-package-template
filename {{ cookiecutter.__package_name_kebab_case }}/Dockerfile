@@ -26,7 +26,7 @@ RUN pipx install poetry==${POETRY_VERSION} && pipx ensurepath
 WORKDIR /workspace
 
 # Install dependencies (package itself is not installed)
-COPY pyproject.toml poetry.lock ./
+COPY pyproject.toml *.lock ./
 
 # MOD: Add private PYPI repository with credentials - ensure the build args are set!
 # poetry config http-basic.<private-pypi> ${POETRY_AUTH_POWERCAST_USERNAME} ${POETRY_AUTH_POWERCAST_PASSWORD}
