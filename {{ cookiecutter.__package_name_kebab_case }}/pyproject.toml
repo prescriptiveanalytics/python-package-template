@@ -93,7 +93,7 @@ norecursedirs = [ ]
 # https://github.com/charliermarsh/ruff
 fix = true
 line-length = 120
-src = ["survey", "tests"]
+src = ["{{cookiecutter.__package_name_snake_case}}", "tests"]
 
 [tool.ruff.lint.pycodestyle]
 max-doc-length = 120
