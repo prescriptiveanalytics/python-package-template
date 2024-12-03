@@ -99,7 +99,7 @@ src = ["{{cookiecutter.__package_name_snake_case}}", "tests"]
 max-doc-length = 120
 
 [tool.ruff.lint.pydocstyle]
-convention = "google"
+convention = "{{ cookiecutter.docstring_style|lower }}"
 
 
 [tool.liccheck]
