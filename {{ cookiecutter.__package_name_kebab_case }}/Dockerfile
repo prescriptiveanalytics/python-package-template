@@ -63,7 +63,7 @@ RUN poetry install --all-extras --no-root && rm -rf $POETRY_CACHE_DIR{artifacts,
 ARG INSTALL_DEV_TOOLS=false
 RUN if [ "$INSTALL_DEV_TOOLS" ]; then \
     pipx install cruft \
-    apt-get update && apt-get install -yq \
+    && apt-get update && apt-get install -yq \
     coreutils \
     neovim \
     curl \
