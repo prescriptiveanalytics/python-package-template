@@ -31,7 +31,6 @@ RUN pipx install poetry==${POETRY_VERSION} && pipx ensurepath
 # can be removed after issue above is fixed
 RUN rm -rf /workspace
 
-RUN mkdir /workspace
 WORKDIR /workspace
 
 # Install dependencies (package itself is not installed)
