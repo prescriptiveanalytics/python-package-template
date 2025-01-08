@@ -1,7 +1,9 @@
-ARG FROM_IMAGE=python
-ARG PYTHON_VERSION={{cookiecutter.python_version}}
+#TODO: might be cool to have a fixed image, to assure reproducibility
+ARG FROM_IMAGE=python:{{cookiecutter.python_version}}
+ARG FROM_IMAGE_RUNTIME=build
+ARG FROM_IMAGE_DEV=build
 
-FROM $FROM_IMAGE:$PYTHON_VERSION AS build
+FROM $FROM_IMAGE AS build
 
 ARG POETRY_VERSION=1.8.3
 ENV DEBIAN_FRONTEND=noninteractive
@@ -23,6 +25,12 @@ ENV PATH="/root/.local/bin:${PATH}" \
 RUN pipx install poetry==${POETRY_VERSION} && pipx ensurepath
 
 # Setup directory structure
+# https://github.com/GoogleContainerTools/kaniko/issues/1508
+# seems like remnant of an earlier kaniko implementation
+# delete, to circumvent any side-effects
+# can be removed after issue above is fixed
+RUN rm -rf /workspace
+
 WORKDIR /workspace
 
 # Install dependencies (package itself is not installed)
@@ -35,7 +43,7 @@ RUN poetry install --without dev --all-extras --no-root && rm -rf $POETRY_CACHE_
 
 ###############################################################################
 # TODO: build from FROM_IMAGE (or a plain python img), and just copy from build (without pyenv, poetry)
-FROM build AS runtime
+FROM $FROM_IMAGE_RUNTIME AS runtime
 
 # Copy the rest of the repository
 COPY . .
@@ -43,7 +51,7 @@ COPY . .
 CMD ["bash"]
 
 ###############################################################################
-FROM build AS dev
+FROM $FROM_IMAGE_DEV AS dev
 
 # Point python path to workspace
 ENV PYTHONPATH="${PYTHONPATH}:/workspace"
