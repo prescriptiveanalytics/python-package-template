@@ -1,50 +1,89 @@
 [build-system]
-# https://python-poetry.org/docs/pyproject/#poetry-and-pep-517
-requires = ["poetry-core>=1.0.0"]
-build-backend = "poetry.core.masonry.api"
+requires = ["hatchling"]
+build-backend = "hatchling.build"
 
-[tool.poetry]
-# https://python-poetry.org/docs/pyproject/
+[project]
 name = "{{ cookiecutter.__package_name_kebab_case }}"
 version = "0.0.1"
+requires-python = "~={{ cookiecutter.python_version }}.0"
 description = "{{ cookiecutter.package_description }}"
-authors = [
-  "{{ cookiecutter.author_name }} <{{ cookiecutter.author_email }}>"
-]
+authors = [{ name = "{{ cookiecutter.author_name }}", email = "{{ cookiecutter.author_email }}" }]
 readme = "README.md"
-repository = "{{ cookiecutter.package_url }}"
-packages = [
-  { include = "{{cookiecutter.__package_name_snake_case}}" }
-]
-classifiers = [
-    "Programming Language :: Python :: 3",
+classifiers = ["Programming Language :: Python :: 3"]
+dependencies = [
+  # "torch>=2.10.0,<2.11.0",
 ]
 
-[[tool.poetry.source]]
-# https://python-poetry.org/docs/repositories/#using-a-private-repository
+[project.urls]
+Repository = "{{ cookiecutter.package_url }}"
+
+[tool.uv]
+environments = ["python_version == '{{ cookiecutter.python_version }}'"]
+# Uncomment to exclude unwanted transitive dependencies
+# exclude-dependencies = ["opencv-python"]
+
+[[tool.uv.index]]
 name = "risc-pypi"
-url = "https://pypiserver.risc-software.at"
-priority = "explicit"
+url = "https://pypinexus01.risc-software.at/repository/pypi/simple/"
+explicit = true
+{% if cookiecutter.gpu_support %}
+[[tool.uv.index]]
+# The cuda version specified here must match the one of `FROM_IMAGE` specified in `.devcontainer/docker-compose.yml`.
+name = "pytorch-cu129"
+url = "https://download.pytorch.org/whl/cu129"
+explicit = true
 
-[tool.poetry.dependencies]
-# https://python-poetry.org/docs/dependency-specification/
-python = "^{{ cookiecutter.python_version }}"
+[tool.uv.sources]
+# The cuda version specified here must match the one of `FROM_IMAGE` specified in `.devcontainer/docker-compose.yml`.
+torch = [
+  {index = "pytorch-cu129", marker = "sys_platform == 'linux' or sys_platform == 'win32'"},
+]
+torchvision = [
+  {index = "pytorch-cu129", marker = "sys_platform == 'linux' or sys_platform == 'win32'"},
+]
+{%- else %}
+# Uncomment for GPU support:
+# [[tool.uv.index]]
+# # The cuda version specified here must match the one of `FROM_IMAGE` specified in `.devcontainer/docker-compose.yml`.
+# name = "pytorch-cu129"
+# url = "https://download.pytorch.org/whl/cu129"
+# explicit = true
+#
+# [tool.uv.sources]
+# # The cuda version specified here must match the one of `FROM_IMAGE` specified in `.devcontainer/docker-compose.yml`.
+# torch = [
+#   {index = "pytorch-cu129", marker = "sys_platform == 'linux' or sys_platform == 'win32'"},
+# ]
+# torchvision = [
+#   {index = "pytorch-cu129", marker = "sys_platform == 'linux' or sys_platform == 'win32'"},
+# ]
+{%- endif %}
 
-[tool.poetry.group.dev.dependencies]
-# https://python-poetry.org/docs/master/managing-dependencies/
-poethepoet = "*"
-black = { version = "*", extras = ["jupyter"] }
-ruff = "*"
-isort = "*"
-pytest = "*"
-pytest-clarity = "*"
-pytest-cov = "*"
-pytest-xdist = "*"
-mkdocs = "*"
-mkdocs-material = "*"
-mkdocstrings = {extras = ["python"], version = "*"}
-liccheck = "*"
-setuptools = "*"
+[tool.hatch.build.targets.sdist]
+include = ["{{ cookiecutter.__package_name_snake_case }}"]
+
+[tool.hatch.build.targets.wheel]
+include = ["{{ cookiecutter.__package_name_snake_case }}"]
+
+[dependency-groups]
+dev = [
+  "black[jupyter]>=26.1.0",
+  "isort>=7.0.0",
+  "liccheck>=0.9.2",
+  "mkdocs>=1.6.1",
+  "mkdocs-material>=9.7.1",
+  "mkdocstrings[python]>=1.0.3",
+  "pip>=26.0.1",
+  "poethepoet>=0.41.0",
+  "pytest>=9.0.2",
+  "pytest-clarity>=1.0.1",
+  "pytest-cov>=7.0.0",
+  "pytest-xdist>=3.8.0",
+  "ruff>=0.15.0",
+  
+  # pinned for liccheck
+  "setuptools==78.1.0",
+]
 
 [tool.poe.tasks]
 # https://github.com/nat-n/poethepoet
@@ -56,8 +95,8 @@ _check_format = "black --check ."
 _check_sort_imports = "isort --check ."
 _check_lint = "ruff check ."
 
-# if you are using poetry for dependency management, you have to generate a requirements.txt first
-_convert_to_req_txt = { shell = "poetry export --without-hashes --format=requirements.txt > requirements.txt" }
+# if you are using uv for dependency management, you have to generate a requirements.txt first
+_convert_to_req_txt = { shell = "uv export --no-hashes --format=requirements-txt > requirements.txt" }
 # check authorization of the licenses of dependencies as defined in [tool.liccheck] section 
 # (or a separate liccheck.ini-file)
 _check_licenses = "liccheck -s liccheck.ini -r requirements.txt"
@@ -71,6 +110,46 @@ docs = "mkdocs serve"
 precommit = ["_format", "_sort_imports", "_lint"]
 check = ["_check_format", "_check_sort_imports", "_check_lint", "check_licenses"]
 test = "pytest"
+{% if cookiecutter.gpu_support %}
+smi = "nvidia-smi"
+check_torch = """
+python -c 'import torch; 
+
+# Fail fast
+assert torch.cuda.is_available(), "CUDA not available";
+
+# Info
+print(f\"PyTorch version: {torch.__version__}\"); 
+print(f\"CUDA available: {torch.cuda.is_available()}\"); 
+print(f\"CUDA version: {torch.version.cuda}\"); 
+print(f\"GPU device: {torch.cuda.get_device_name(0) if torch.cuda.is_available() else 'None'}\")
+
+# Smoke test
+torch.randn(1024,1024,device="cuda");
+torch.cuda.synchronize();'
+"""
+check_cuda = ["smi", "check_torch"]
+{%- else %}
+# Uncomment for GPU debugging:
+# smi = "nvidia-smi"
+# check_torch = """
+# python -c 'import torch; 
+#
+# # Fail fast
+# assert torch.cuda.is_available(), "CUDA not available";
+#
+# # Info
+# print(f\"PyTorch version: {torch.__version__}\"); 
+# print(f\"CUDA available: {torch.cuda.is_available()}\"); 
+# print(f\"CUDA version: {torch.version.cuda}\"); 
+# print(f\"GPU device: {torch.cuda.get_device_name(0) if torch.cuda.is_available() else 'None'}\")
+#
+# Smoke test
+#torch.randn(1024,1024,device="cuda");
+#torch.cuda.synchronize();'
+# """
+# check_cuda = ["smi", "check_torch"]
+{%- endif %}
 
 [tool.black]
 # https://black.readthedocs.io/en/stable/usage_and_configuration/the_basics.html#configuration-via-a-file
@@ -93,7 +172,7 @@ norecursedirs = [ ]
 # https://github.com/charliermarsh/ruff
 fix = true
 line-length = 120
-src = ["{{cookiecutter.__package_name_snake_case}}", "tests"]
+src = ["{{ cookiecutter.__package_name_snake_case }}", "tests"]
 
 [tool.ruff.lint.pycodestyle]
 max-doc-length = 120
@@ -101,44 +180,53 @@ max-doc-length = 120
 [tool.ruff.lint.pydocstyle]
 convention = "{{ cookiecutter.docstring_style|lower }}"
 
-
 [tool.liccheck]
 # see also: https://pypi.org/project/liccheck/
 # Authorized and unauthorized licenses in LOWER CASE
 authorized_licenses = [
-        "bsd",
-        "new bsd",
-        "bsd 3-clause",
-        "bsd license",
-        "isc license",
-        "isc license (iscl)",
-        "apache",
-        "apache 2.0",
-        "apache software",
-        "apache software license",
-        "apache license, version 2.0",
-        "gnu lgpl",
-        "historical permission notice and disclaimer (hpnd)",
-        "lgpl with exceptions or zpl",
-        "mozilla public license 2.0 (mpl 2.0)",
-        "mit",
-        "mit license",
-        "new bsd license",
-        "python software foundation license",
-        "python software foundation",
-        "simplified bsd",
-        "the unlicense (unlicense)",
-	]
+  "bsd",
+  "new bsd",
+  "bsd-2-clause",
+  "bsd 2-clause",
+  "bsd-3-clause",
+  "bsd 3-clause",
+  "bsd license",
+  "isc",
+  "isc license",
+  "isc license (iscl)",
+  "apache",
+  "apache-2.0",
+  "apache 2.0",
+  "apache software",
+  "apache software license",
+  "apache license, version 2.0",
+  "gnu lgpl",
+  "historical permission notice and disclaimer (hpnd)",
+  "lgpl with exceptions or zpl",
+  "mozilla public license 2.0 (mpl 2.0)",
+  "mit",
+  "mit license",
+  "new bsd license",
+  "python software foundation license",
+  "python software foundation",
+  "psf-2.0",
+  "simplified bsd",
+  "the unlicense (unlicense)",
+]
 # as_regex = true -> e.g. '\bgpl'
 unauthorized_licenses = [
-	"gpl v3",
-	"gnu general public license v2 or later (gplv2+)",
+  "gpl v3",
+  "gnu general public license v2 or later (gplv2+)",
 ]
 level = "standard"  # alternatives: "cautious", "paranoid"
 requirement_txt_file = "./requirements.txt"
 reporting_txt_file = "./liccheck_reporting.txt" # by default is None
 
+# 'uv export' already unrolls transitive deps into requirements.txt
+# therefore another resolution is not needed
+# this even hindered the usage of 'exclude-dependencies'
+no_deps = true
+
 [tool.liccheck.authorized_packages]
 # Python software license (see http://zesty.ca/python/uuid.README.txt)
 uuid = "1.30"
-

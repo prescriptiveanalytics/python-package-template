@@ -8,7 +8,7 @@ plugins:
   - mkdocstrings:
       handlers:
         python:
-          import:
+          inventories:
             - https://docs.python-requests.org/en/master/objects.inv
           paths: [.]
           options:

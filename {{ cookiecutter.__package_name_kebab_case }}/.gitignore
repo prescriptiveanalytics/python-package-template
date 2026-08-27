@@ -20,9 +20,6 @@ output/
 # direnv
 .envrc
 
-# dotenv
-.env
-
 # Hypothesis
 .hypothesis/
 
@@ -90,3 +87,6 @@ coverage.xml
 cover/
 *-junit.xml
 liccheck_reporting.txt
+
+# credentials and similar
+.env-secrets

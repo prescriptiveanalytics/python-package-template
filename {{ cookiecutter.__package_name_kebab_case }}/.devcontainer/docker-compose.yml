@@ -3,10 +3,15 @@ services:
     container_name: ${DEVCONTAINER_NAME}
     
     # load environment variables from a dotenv file
-    env_file: ".env"
+    env_file:
+      - .env
+      # uncomment to load secrets from a dotenv file - do not commit
+      # optionally add property "optional: true" to ignore if file is missing
+      # - .env-secrets
     
     # necessary to keep devcontainer alive
     entrypoint: "sleep infinity"
+
     build:
       context: ..
       dockerfile: Dockerfile
@@ -15,13 +20,39 @@ services:
       # set args for build process
       args:
         # see Dockerfile for a full list of options
-        INSTALL_DEV_TOOLS: true
+        {%- if cookiecutter.gpu_support %}
+        FROM_IMAGE: "nvidia/cuda:12.9.1-runtime-ubuntu24.04"
+        {%- else %}
+        # Uncomment for GPU support:
+        # FROM_IMAGE: "nvidia/cuda:12.9.1-runtime-ubuntu24.04"
+        {%- endif %}
+        VENV_PATH: "/opt/venv"
+        PYTHON_VERSION: "{{ cookiecutter.python_version }}"
+    {% if cookiecutter.gpu_support %}
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities:
+                - gpu
+    {%- else %}
+    # Uncomment for GPU support:
+    # deploy:
+    #   resources:
+    #     reservations:
+    #       devices:
+    #         - driver: nvidia
+    #           count: all
+    #           capabilities:
+    #             - gpu
+    {%- endif %}
     
     volumes:
       # Mounts the project folder to '/workspace'.
+      {%- if cookiecutter.is_subproject %}
+      - ../../../:/workspace:cached
+      {%- else %}
       - ../:/workspace:cached
-    
-    # Uncomment to run the container with GPU support
-    # runtime: nvidia
-    # environment:
-    #   - NVIDIA_VISIBLE_DEVICES=all
+      {%- endif %}

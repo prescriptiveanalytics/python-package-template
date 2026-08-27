@@ -6,4 +6,4 @@
 
 
 def test_example() -> None:
-    assert None is None
+    assert 1 + 1 == 2

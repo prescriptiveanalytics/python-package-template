@@ -3,7 +3,8 @@
 
 # but
 !/pyproject.toml
-!/poetry.lock
+!/uv.lock
+!/README.md
 !/{{ cookiecutter.__package_name_snake_case }}/**/*.py
 
 # but but

@@ -1,0 +1,50 @@
+# GitHub Copilot Configuration
+# This file tells Copilot to prioritize instruction files and exclude noise
+
+!.github/instructions/*.md
+!.github/copilot-instructions.md
+!CONTRIBUTING.md
+
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+
+# virtual environments
+venv/
+.venv/
+env/
+ENV/
+
+*.swp
+*.swo
+*~
+.DS_Store
+
+build/
+dist/
+*.egg
+*.egg-info
+
+# testing
+htmlcov/
+.coverage
+coverage.xml
+python-junit.xml
+
+# Environment variables and secrets
+.env
+.env.local
+.env.*.local
+
+.ipynb_checkpoints/
+
+# OS
+Thumbs.db
+
+# Documentation builds
+docs/_build/
+site/
